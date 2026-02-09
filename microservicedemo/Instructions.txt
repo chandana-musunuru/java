@@ -1,0 +1,53 @@
+
+To configure keyclock:
+
+open its conf folder and edit file:keycloak.conf
+add line:
+http-port=8085
+
+Run application as :
+bin\kc.bat start-dev
+
+open the URL http://localhost:8085 this should open the home page of keycloak,
+register an user as admin using admin/admin
+
+now login and open its console:
+In Keycloak, all the clients, users, and roles related to a particular application (or) a group of applications reside inside something known as a realm. Realms are independent of each other, so if you create one client/user in one realm, you cannot use it from another realm.
+
+After logging in, click on the dropdown with the text "Keycloak" in the top left-side corner and click on the Create Realm button
+
+
+Provide the name of the realm(eg: spring-microservices-realm) and click on the Create button
+
+Now the realm should be created successfully
+
+Next, click on the Clients link to the left sidebar, and click on Create Client
+
+Provide any Client ID you like eg: test-client-id and click on Next
+
+Check Client Authentication as ON
+
+In the Authentication Flow, select Service accounts roles and unselect all other options, this makes sure that our client supports Client Credentials grant
+
+Click on Next and then Save
+
+Finally, click on the Credentials tab, here you can view the client secret that is generated automatically and you can also regenerate a new client secret. Make sure to copy the client secret, we will use this in the later parts to request a token to access the API Gateway
+
+this is url to get relam info as:
+http://localhost:8181/realms/spring-microservices-realm
+
+This url is required to set property in postman app:
+http://localhost:8085/realms/spring-microservices-realm/.well-known/openid-configuration
+
+a. token_endpoint 
+
+
+Now let's run the ApiGatewayApplication.java class and test out our endpoints using postman.
+Open the Postman client and inside the request window, click on the Authorization tab and then select OAuth2.
+Select the Grant Type as "Client Credentials"
+Enter the Client ID and Client Secret of the client we created in the previous steps
+Enter Access Token URL as http://localhost:8085/realms/spring-microservices-realm/protocol/openid-connect/token
+Choose Client Authentication as Send as Basic Auth Header
+Leave the rest of the fields as it is, and click on the Get New Access Token button.
+This will make a call to the Token Endpoint and fetches us a new Access Token.
+Click on the Use Token method, to add the token to our Request Context Window.
