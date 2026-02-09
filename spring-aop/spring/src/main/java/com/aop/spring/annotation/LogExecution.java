@@ -24,6 +24,7 @@ AOP is adding functionality without breaking business logic
             2. Advice =(when) The extra code to be executed at the defined pointcut.(when should my code run)
                         @Before,@After,@Around,@AfterThrowing
             3. Join Point =(what) A specific point in the program execution, such as method execution.System.out.println("Logging...");
+        
         Package-based AOP is good early, but later it gets noisy.
         That’s why people switch to:@Before("@annotation(LogExecution)")
         
